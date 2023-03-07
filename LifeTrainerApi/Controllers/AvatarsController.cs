@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LifeTrainerApi.Data;
 using LifeTrainerApi.Models;
+using LifeTrainerApi.DTO;
 
 namespace LifeTrainerApi.Controllers
 {
@@ -25,28 +26,57 @@ namespace LifeTrainerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Avatar>>> Getavatars()
         {
-            return await _context.avatars.ToListAsync();
+            if (_context.avatars == null)
+            {
+                return NotFound();
+            }
+            var avatars = await _context.avatars.ToListAsync();
+            foreach (var avatar in avatars)
+            {
+                var items = await _context.items.Where(d => d.AvatarID == avatar.AvatarId).ToListAsync();
+            }
+            return avatars;
         }
 
         // GET: api/Avatars/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Avatar>> GetAvatar(int id)
+        public async Task<ActionResult<AvatarDetailsDTO>> GetAvatar(int id)
         {
+            if (_context.avatars == null)
+            {
+                return NotFound();
+            }
+
             var avatar = await _context.avatars.FindAsync(id);
 
             if (avatar == null)
             {
                 return NotFound();
             }
+            var items = await _context.items.Where(d => d.AvatarID == avatar.AvatarId).ToListAsync();
+            var ADTO = new AvatarDetailsDTO
+            {
+                AvatarId = avatar.AvatarId,
+                AvatarName = avatar.AvatarName,
+                XP = avatar.XP,
+                XPLevel = avatar.XPLevel,
+                Items = items
+            };
 
-            return avatar;
+            return Ok(ADTO);
         }
 
         // PUT: api/Avatars/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAvatar(int id, Avatar avatar)
+        public async Task<IActionResult> PutAvatar(int id, AvatarDTO dto)
         {
+            var avatar = new Avatar(dto, id);
+            if (avatar.Items == null)
+            {
+                var Items = await _context.items.Where(d => d.AvatarID == avatar.AvatarId).ToListAsync();
+                avatar.Items = Items;
+            }
             if (id != avatar.AvatarId)
             {
                 return BadRequest();
@@ -76,8 +106,13 @@ namespace LifeTrainerApi.Controllers
         // POST: api/Avatars
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Avatar>> PostAvatar(Avatar avatar)
+        public async Task<ActionResult<Avatar>> PostAvatar(AvatarDTO dto)
         {
+            if( _context.avatars == null)
+            {
+                return Problem("Entity set 'LTcontext.avatars is null");
+            }
+            var avatar = new Avatar(dto);
             _context.avatars.Add(avatar);
             await _context.SaveChangesAsync();
 

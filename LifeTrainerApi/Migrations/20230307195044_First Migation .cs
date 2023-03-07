@@ -4,10 +4,8 @@
 
 namespace LifeTrainerApi.Migrations
 {
-    /// <inheritdoc />
-    public partial class FirtMigrate : Migration
+    public partial class FirstMigation : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -52,7 +50,6 @@ namespace LifeTrainerApi.Migrations
                 column: "AvatarId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
