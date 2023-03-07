@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LifeTrainerApi.Data;
 using LifeTrainerApi.Models;
+using LifeTrainerApi.DTO;
 
 namespace LifeTrainerApi.Controllers
 {
@@ -25,28 +26,46 @@ namespace LifeTrainerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Item>>> Getitems()
         {
+            if (_context.items == null)
+            {
+                return NotFound();
+            }
             return await _context.items.ToListAsync();
         }
 
         // GET: api/Items/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> GetItem(int id)
+        public async Task<ActionResult<ItemDetailsDTO>> GetItem(int id)
         {
+            if (_context.items == null)
+            {
+                return NotFound();
+            }
             var item = await _context.items.FindAsync(id);
 
             if (item == null)
             {
                 return NotFound();
             }
-
-            return item;
+            var IDTO = new ItemDetailsDTO
+            {
+                ItemId = item.ItemId,
+                AvatarID = item.AvatarID,
+                ItemName = item.ItemName,
+                Description = item.description,
+                RewardAmount = item.RewardAmount,
+                CompletionCount = item.CompletionCount
+            };
+            return Ok(IDTO);
         }
 
         // PUT: api/Items/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItem(int id, Item item)
+        public async Task<IActionResult> PutItem(int id, ItemsDTO dto)
         {
+            var item = new Item(dto, id);
+
             if (id != item.ItemId)
             {
                 return BadRequest();
@@ -76,8 +95,13 @@ namespace LifeTrainerApi.Controllers
         // POST: api/Items
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Item>> PostItem(Item item)
+        public async Task<ActionResult<Item>> PostItem(ItemsDTO dto)
         {
+            if (_context.items == null)
+            {
+                return Problem("entity set 'LTcontect.items is null");
+            }
+            var item = new Item(dto);
             _context.items.Add(item);
             await _context.SaveChangesAsync();
 
