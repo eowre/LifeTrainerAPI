@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2023-03-08T19:31:29.7796691Z"
+    },
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2023-03-08T19:31:14.3608542Z"
+    }
+  },
+  "parameters": {
+    "mssql1.subscriptionId": {
+      "Name": "mssql1.subscriptionId",
+      "Type": "subscription",
+      "Value": "0537d88d-fda4-4eb0-a13f-cee13d0753c2"
+    },
+    "mssql1.resourceGroupName": {
+      "Name": "mssql1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "LifeTrainer"
+    }
+  }
+}

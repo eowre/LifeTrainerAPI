@@ -24,7 +24,7 @@ namespace LifeTrainerApi
 
             builder.Services.AddDbContext<LTcontext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSQLConnection"));
             });
 
             builder.Services.AddControllers();
