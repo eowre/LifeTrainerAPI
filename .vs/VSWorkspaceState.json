@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.github",
+    "\\.github\\workflows",
+    "\\LifeTrainerApi",
+    "\\LifeTrainerApi\\bin",
+    "\\LifeTrainerApi\\bin\\Release",
+    "\\LifeTrainerApi\\bin\\Release\\net6.0"
+  ],
+  "SelectedNode": "\\LifeTrainerApi.sln",
+  "PreviewInSolutionExplorer": false
+}
