@@ -41,8 +41,13 @@ namespace LifeTrainerApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 
