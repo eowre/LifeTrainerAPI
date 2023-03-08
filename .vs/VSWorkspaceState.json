@@ -1,10 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\.github",
     "\\.github\\workflows",
     "\\LifeTrainerApi",
     "\\LifeTrainerApi\\bin",
+    "\\LifeTrainerApi\\bin\\Debug",
+    "\\LifeTrainerApi\\bin\\Debug\\net6.0",
     "\\LifeTrainerApi\\bin\\Release",
     "\\LifeTrainerApi\\bin\\Release\\net6.0"
   ],
